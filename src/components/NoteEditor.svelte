@@ -1,22 +1,20 @@
 <script lang="ts">
   import { noteActions, allNotes } from '$lib/stores/noteStore';
-  import { onMount } from 'svelte';
-  export let noteId: string | null = null;
-  export let onClose: () => void = () => {};
-  export let onSaved: () => void = () => {};
 
-  let title = '';
-  let content = '';
-  let color = '#f9e79f';
+  let {noteId, onclose, onsaved} : {noteId: string | null ; onclose: () => void; onsaved: () => void; } = $props();
 
-  $: {
+  let title = $state('');
+  let content = $state('');
+  let color = $state('#666');
+
+  $effect(() => {
     if (noteId) {
       const note = $allNotes.find(n => n.id === noteId);
       if (note) { title = note.title; content = note.content; color = note.color; }
     } else {
-      title = ''; content = ''; color = '#f9e79f';
+      title = ''; content = ''; color = '#666';
     }
-  }
+  });
 
   function save() {
     if (noteId) {
@@ -24,19 +22,41 @@
     } else {
       noteActions.add({ title, content, color });
     }
-    onSaved();
+    onsaved();
+    onclose();
+  }
+
+  function handleOverlayClick(e: MouseEvent) {
+    if (e.target === e.currentTarget) {
+      onclose();
+    }
+  }
+
+  // Keyboard support: Enter/Space to close (if focus is on overlay),
+  // and Escape to close regardless of focus.
+  function handleOverlayKeydown(e: KeyboardEvent) {
+    if (e.key === 'Escape') {
+      onclose();
+      e.preventDefault();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      // Only if the overlay itself is the target (i.e., it has focus)
+      if (e.target === e.currentTarget) {
+        onclose();
+        e.preventDefault();
+      }
+    }
   }
 </script>
 
-<div class="overlay" on:click={onClose}>
-  <div class="modal" on:click|stopPropagation>
-    <h2>{noteId ? 'Edit' : 'New'} Note</h2>
+<div class="overlay" role="button" tabindex="0" aria-label="Close editor" onclick={handleOverlayClick} onkeydown={handleOverlayKeydown}>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h2 id="modal-title">{noteId ? 'Edit' : 'New'} Note</h2>
     <input bind:value={title} placeholder="Title" />
-    <textarea bind:value={content} placeholder="Write your note…" rows="6" />
+    <textarea bind:value={content} placeholder="Write your note…" rows="6" ></textarea>
     <input type="color" bind:value={color} />
     <div>
-      <button on:click={save}>Save</button>
-      <button on:click={onClose}>Cancel</button>
+      <button onclick={save}>Save</button>
+      <button onclick={onclose}>Cancel</button>
     </div>
   </div>
 </div>

@@ -44,7 +44,7 @@
     flex-direction: column;
     transition: transform 0.1s;
     box-sizing: border-box;
-    background-color: var(--surface, #f9e79f); /* fallback */
+    background-color: var(--surface, #666); /* fallback */
   }
   .card:hover {
     transform: scale(1.02);

@@ -55,15 +55,15 @@
   {#if showEditor}
     <NoteEditor
       noteId={editingNoteId}
-      on:close={closeEditor}
-      on:saved={closeEditor}
+      onclose={closeEditor}
+      onsaved={closeEditor}
     />
   {/if}
 
   {#if showManager}
     <NoteManager
-      onClose={toggleManager}
-      on:edit={handleEdit}
+      onclose={toggleManager}
+      onedit={handleEdit}
     />
   {/if}
 </div>
