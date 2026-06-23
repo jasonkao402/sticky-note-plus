@@ -23,7 +23,6 @@
       noteActions.add({ title, content, color });
     }
     onsaved();
-    onclose();
   }
 
   function handleOverlayClick(e: MouseEvent) {

@@ -1,9 +1,5 @@
 <script lang="ts">
   import { allNotes, noteActions } from '$lib/stores/noteStore';
-  // import NoteEditor from './NoteEditor.svelte';
-  // import { createEventDispatcher } from 'svelte';
-
-  // const dispatch = createEventDispatcher();
   let { onclose, onedit } = $props();
 
   // Close only when clicking on the backdrop, not its children
@@ -44,7 +40,7 @@
       {#each $allNotes as note}
         <li>
           <span>{note.title || 'Untitled'}</span>
-          <!-- <button onclick={() => noteEditor.edit(note.id)}>✏️</button> -->
+          <!-- <button onclick={() => onedit(note.id)}>✏️</button> -->
           <button onclick={() => { if (confirm('Delete?')) noteActions.remove(note.id); }}>🗑️</button>
         </li>
       {/each}

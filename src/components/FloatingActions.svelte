@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  const dispatch = createEventDispatcher();
+  let { onadd, onmanage } = $props();
 </script>
 <div class="fab">
-  <button on:click={() => dispatch('add')}>➕</button>
-  <button on:click={() => dispatch('manage')}>🔧</button>
+  <button onclick={() => onadd()}>📝</button>
+  <button onclick={() => onmanage()}>🔧</button>
 </div>
 <style>
   .fab {

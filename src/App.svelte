@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { noteActions } from '$lib/stores/noteStore';
   import NoteGrid from './components/NoteGrid.svelte';
   import NoteEditor from './components/NoteEditor.svelte';
   import NoteManager from './components/NoteManager.svelte';
   import SearchBar from './components/SearchBar.svelte';
   import SortButton from './components/SortButton.svelte';
   import FloatingActions from './components/FloatingActions.svelte';
+  import Toast from './components/Toastv2.svelte';
 
   let isDark = true;
   let showEditor = false;
@@ -18,8 +17,11 @@
   function toggleTheme() { isDark = !isDark; }
 
   // Handles edit events from NoteGrid and NoteManager
-  function handleEdit(event: CustomEvent<string>) {
-    editingNoteId = event.detail;
+  function handleEdit(id: string) {
+    if (showManager) {
+      showManager = false; // Close manager if open
+    }
+    editingNoteId = id;
     showEditor = true;
   }
 
@@ -39,17 +41,17 @@
 
 <div class="app">
   <header style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:20px;">
-    <h1 style="flex:1;">📌 Sticky+</h1>
+    <h1 style="flex:1;">Sticky+</h1>
     <SearchBar />
     <SortButton />
-    <button on:click={toggleTheme}>{isDark ? '☀️' : '🌙'}</button>
+    <button onclick={toggleTheme}>{isDark ? '☀️' : '🌙'}</button>
   </header>
   
-  <NoteGrid on:edit={handleEdit} />
+  <NoteGrid onedit={handleEdit} />
   
   <FloatingActions
-    on:add={handleAdd}
-    on:manage={toggleManager}
+    onadd={handleAdd}
+    onmanage={toggleManager}
   />
 
   {#if showEditor}
@@ -67,3 +69,5 @@
     />
   {/if}
 </div>
+
+<Toast />
