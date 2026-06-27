@@ -3,7 +3,8 @@ export interface Note {
   id: string;
   title: string;
   content: string;
-  color: string;      // hex, e.g. "#ffeaa7"
+  color: string;      // hex
+  // tags: string[];      // array of tag names
   createdAt: string;  // ISO
   updatedAt: string;  // ISO
 }

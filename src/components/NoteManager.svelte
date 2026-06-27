@@ -1,6 +1,7 @@
 <script lang="ts">
   import { allNotes, noteActions } from '$lib/stores/noteStore';
-  let { onclose, onedit } = $props();
+  
+  let { onclose, onedit } : { onclose: () => void; onedit: (id: string) => void } = $props();
 
   // Close only when clicking on the backdrop, not its children
   function handleOverlayClick(e: MouseEvent) {
@@ -45,7 +46,7 @@
         </li>
       {/each}
     </ul>
-    <button {onclose}>Close</button>
+    <button onclick={onclose}>Close</button>
   </div>
 </div>
 
@@ -57,12 +58,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer; /* indicates clickable backdrop */
-    /* ensure focus ring for keyboard users */
+    /* cursor: pointer;
     &:focus-visible {
       outline: 2px solid #fff;
       outline-offset: -2px;
-    }
+    } */
   }
   .panel {
     background: var(--surface, #fff);

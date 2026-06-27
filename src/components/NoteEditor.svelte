@@ -47,7 +47,14 @@
   }
 </script>
 
-<div class="overlay" role="button" tabindex="0" aria-label="Close editor" onclick={handleOverlayClick} onkeydown={handleOverlayKeydown}>
+<div
+  class="overlay"
+  role="button"
+  tabindex="0"
+  aria-label="Close editor"
+  onclick={handleOverlayClick}
+  onkeydown={handleOverlayKeydown}
+>
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <h2 id="modal-title">{noteId ? 'Edit' : 'New'} Note</h2>
     <input bind:value={title} placeholder="Title" />
@@ -61,6 +68,23 @@
 </div>
 <style>
   .overlay { position: fixed; inset:0; background: rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; }
-  .modal { background: var(--surface); padding:30px; border-radius:12px; width:500px; display:flex; flex-direction:column; gap:16px; }
-  /* add input/textarea styles */
+  .modal { 
+    background: var(--surface); 
+    padding: 30px; 
+    border-radius: 12px; 
+    
+    width: 75%; 
+    max-width: 900px;
+    height: 75vh;
+    max-height: 800px;
+    
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px; 
+  }
+  .modal input,
+  .modal textarea {
+    padding: 0.75rem;
+    font-size: 1.1rem;
+  }
 </style>
