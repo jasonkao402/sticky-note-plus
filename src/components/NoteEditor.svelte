@@ -6,21 +6,26 @@
   let title = $state('');
   let content = $state('');
   let color = $state('#666');
+  let tagInput = $state('');
 
   $effect(() => {
     if (noteId) {
       const note = $allNotes.find(n => n.id === noteId);
-      if (note) { title = note.title; content = note.content; color = note.color; }
+      if (note) { 
+        const safeTags = Array.isArray(note.tags) ? note.tags.join(', ') : '';
+        title = note.title; content = note.content; color = note.color; tagInput = safeTags;
+      }
     } else {
-      title = ''; content = ''; color = '#666';
+      title = ''; content = ''; color = '#666'; tagInput = '';
     }
   });
 
   function save() {
+    const splitTags = tagInput.split(',').map(t => t.trim()).filter(Boolean);
     if (noteId) {
-      noteActions.update(noteId, { title, content, color });
+      noteActions.update(noteId, { title, content, color, tags: splitTags });
     } else {
-      noteActions.add({ title, content, color });
+      noteActions.add({ title, content, color, tags: splitTags });
     }
     onsaved();
   }
@@ -58,8 +63,9 @@
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <h2 id="modal-title">{noteId ? 'Edit' : 'New'} Note</h2>
     <input bind:value={title} placeholder="Title" />
-    <textarea bind:value={content} placeholder="Write your note…" rows="6" ></textarea>
+    <textarea bind:value={content} placeholder="Write your note…" rows="10" ></textarea>
     <input type="color" bind:value={color} />
+    <input bind:value={tagInput} placeholder="Tags (comma-separated)" />
     <div>
       <button onclick={save}>Save</button>
       <button onclick={onclose}>Cancel</button>
@@ -75,8 +81,8 @@
     
     width: 75%; 
     max-width: 900px;
-    height: 75vh;
-    max-height: 800px;
+    /* height: 75vh; */
+    max-height: 900px;
     
     display: flex; 
     flex-direction: column; 
@@ -84,7 +90,7 @@
   }
   .modal input,
   .modal textarea {
-    padding: 0.75rem;
+    padding: 0.5rem;
     font-size: 1.1rem;
   }
 </style>

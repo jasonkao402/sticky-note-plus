@@ -68,9 +68,12 @@
     background: var(--surface, #fff);
     padding: 2rem;
     border-radius: 12px;
-    max-width: 500px;
-    width: 90%;
-    max-height: 80vh;
+    
+    width: 60%; 
+    max-width: 900px;
+    /* height: 75vh; */
+    max-height: 900px;
+
     overflow-y: auto;
     cursor: default; /* prevent text selection confusion */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);

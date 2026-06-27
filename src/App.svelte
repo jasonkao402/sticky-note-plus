@@ -11,6 +11,7 @@
   let showEditor = false;
   let showManager = false;
   let editingNoteId: string | null = null;
+  let groupByTag = false;
 
   $: document.body.classList.toggle('light', !isDark);
 
@@ -37,6 +38,7 @@
   }
 
   function toggleManager() { showManager = !showManager; }
+  function toggleGroupByTag() { groupByTag = !groupByTag; }
 </script>
 
 <div class="app">
@@ -45,9 +47,10 @@
     <SearchBar />
     <SortButton />
     <button onclick={toggleTheme}>{isDark ? '☀️' : '🌙'}</button>
+    <button onclick={toggleGroupByTag}>{groupByTag ? 'Ungroup' : 'Group by Tag'}</button>
   </header>
   
-  <NoteGrid onedit={handleEdit} />
+  <NoteGrid onedit={handleEdit} groupByTag={groupByTag} />
   
   <FloatingActions
     onadd={handleAdd}

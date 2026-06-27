@@ -60,7 +60,13 @@
   >
     <SvelteMarkdown source={note.content} options={{ breaks: true }} />
   </div>
-  
+
+  <div class="tags">
+    {#each note.tags as tag}
+      <span class="tag">#{tag}</span>
+    {/each}
+  </div>
+
   <button
     type="button"
     tabindex="0"
@@ -95,7 +101,7 @@
   .content {
     padding: 8px;
     border-radius: 4px;
-    margin-bottom: 8px;
+    margin: 8px 0;
     background-color: rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s;
   }
@@ -103,7 +109,7 @@
   .title {
     font-size: 1.2rem;
     font-weight: bold;
-    margin: 0 0 8px 0;
+    margin: 8px 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -144,5 +150,18 @@
   .markdown-body :global(ol) {
     margin: 0 0 8px 0;
     padding-left: 20px;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin: 1% 0;
+  }
+  .tag {
+    background: rgba(0,0,0,0.1);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    color: inherit;
   }
 </style>

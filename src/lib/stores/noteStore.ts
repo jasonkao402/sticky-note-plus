@@ -19,6 +19,7 @@ export const noteActions = {
       const now = new Date().toISOString();
       const newNote: Note = {
         ...note,
+        tags: note.tags || [],
         id: crypto.randomUUID(),
         createdAt: now,
         updatedAt: now,
